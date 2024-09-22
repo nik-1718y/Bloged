@@ -37,12 +37,15 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like curl requests or mobile apps)
+      console.log('Received origin:', origin);  // Log the incoming origin
+
+      // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
-      
+
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.error('Not allowed by CORS:', origin);  // Log disallowed origins
         callback(new Error('Not allowed by CORS'));
       }
     },
@@ -53,6 +56,25 @@ app.use(
 
 // Handle preflight OPTIONS requests
 app.options('*', cors());
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       // Allow requests with no origin (like curl requests or mobile apps)
+//       if (!origin) return callback(null, true);
+      
+//       if (allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     credentials: true,  // Allow cookies and credentials
+//     methods: ["GET", "POST", "PUT", "DELETE"]
+//   })
+// );
+
+// Handle preflight OPTIONS requests
+// app.options('*', cors());
 
 
 app.use(fileUpload({
