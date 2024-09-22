@@ -1,1 +1,1 @@
-export const BACKEND_URL="https://bloged-z3n7.onrender.com"
+export const BACKEND_URL="https://bloged-1.onrender.com"
