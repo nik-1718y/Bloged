@@ -25,6 +25,7 @@ app.use(
   methods:["GET","POST","PUT","DELETE"],
 })
 );
+app.options('*', cors());  
 
 app.use(fileUpload({
   useTempFiles:true,
