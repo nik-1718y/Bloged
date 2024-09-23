@@ -17,17 +17,28 @@ function Login() {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:4001/api/users/login",
-        // "https://bloged-z3n7.onrender.com",
-        { email, password, role },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const API_URL = process.env.NODE_ENV === "FRONTEND_URL"
+  ? "https://bloged-olive.vercel.app"
+  : "http://localhost:4001";
+
+const { data } = await axios.post(`${API_URL}/api/users/login`, { email, password, role }, {
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+      // const { data } = await axios.post(
+      //   "http://localhost:4001/api/users/login",
+      //   // "https://bloged-z3n7.onrender.com",
+      //   { email, password, role },
+      //   {
+      //     withCredentials: true,
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
       console.log(data);
       // Store the token in localStorage
       localStorage.setItem("jwt", data.token); // storing token in localStorage so that if user refreshed the page it will not redirect again in login
