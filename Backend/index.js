@@ -12,7 +12,7 @@ import blogRoute from "./routes/blog.route.js"
 const app = express();
 dotenv.config();
 
-const port =process.env.PORT;
+const port =process.env.PORT||5000;
 const MONOGO_URL=process.env.MONOG_URI;
 
 //middleware
