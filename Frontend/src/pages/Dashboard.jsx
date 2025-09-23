@@ -15,7 +15,7 @@ function Dashboard() {
 
   if (!isAuthenticated) {
     return <Navigate to={"/"} />;
-  }
+  }g
   return (
     <div>
       <div>
