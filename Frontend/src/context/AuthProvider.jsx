@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const token = localStorage.getItem("jwt");
         if (token) {
-          const { data } = await axios.get(`${API_URL}/api/users/my-profile`, {
+          const { data } = await axios.get(`${API_URL}/users/my-profile`, {
             withCredentials: true,
             headers: {
               'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchBlogs = async () => {
       try {
-        const { data } = await axios.get(`${API_URL}/api/blogs/all-blogs`, {
+        const { data } = await axios.get(`${API_URL}/blogs/all-blogs`, {
           withCredentials: true
         });
         console.log(data);
