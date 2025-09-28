@@ -41,7 +41,7 @@ function Register() {
     try {
       const { data } = await axios.post(
         // "http://localhost:4001/api/users/register",
-        "https://bloged-11.onrender.com",
+        "https://bloged-11.onrender.com/api/users/register",
         formData,
         {
           withCredentials: true,
