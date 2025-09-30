@@ -1,68 +1,134 @@
-import React from 'react'
+// import React from 'react'
+// import Navbar from "../src/components/Navbar";
+// import Home from "../src/components/Home";
+// import Footer from "../src/components/Footer";
+// import {Navigate, Route, Routes, useLocation} from"react-router-dom";
+// import Blogs from"../src/pages/Blogs";
+// import About from"../src/pages/About";
+// import Contact from"../src/pages/Contact";
+// import Login from"../src/pages/Login";
+// import Register from"../src/pages/Register";
+// import Dashboard from"../src/pages/Dashboard";
+// import { useAuth } from './context/AuthProvider';
+// import Creators from './pages/Creators';
+// import UpdateBlog from "./dashboard/UpdateBlog";
+
+// import { Toaster } from "react-hot-toast";
+// import Detail from './pages/Detail';
+// import Notfound from './pages/Notfound';
+// function App() {
+//   const location=useLocation()
+//   const hideNavberFooter=["/dashboard","/login","/register"].includes(
+//     location.pathname
+//   )
+//   // const {blogs} =useAuth()
+//   // console.log(blogs);
+//   const { blogs, isAuthenticated } = useAuth();
+//   let token = localStorage.getItem("jwt"); // Retrieve the token directly from the localStorage to maininting the routes protect (Go to login.jsx)
+//   console.log(blogs);
+//   console.log(isAuthenticated);
+//   return (
+//     <div>
+//     {!hideNavberFooter && <Navbar/>}
+//      {/* defining routes */}
+//      <Routes>
+//      <Route
+//           exact
+//           path="/"
+//           element={token ? <Home /> : <Navigate to={"/login"} />}
+//         />
+//      {/* <Route exact path="/"element ={<Home/>}/> */}
+//      <Route exact path="/blogs"element ={<Blogs/>}/>
+//      <Route exact path="/about"element ={<About/>}/>
+//      <Route exact path="/contact"element ={<Contact/>}/>
+//      <Route exact path="/login"element ={<Login/>}/>
+//      <Route exact path="/register"element ={<Register/>}/>
+//      <Route exact path="/creators"element ={<Creators/>}/>
+//      <Route exact path="/dashboard"element ={<Dashboard/>}/>
+
+//      {/* Single page route */}
+//      <Route exact path="/blog/:id" element={<Detail/>} />
+ 
+
+//         {/* Update page route */}
+//         <Route exact path="/blog/update/:id" element={<UpdateBlog />} />
+
+// {/* Universal route */}
+// <Route path='*' element={<Notfound/>}/>
+
+//      </Routes>
+//      <Toaster/>
+//      {!hideNavberFooter&&<Footer/>}
+     
+//     </div>
+//   )
+// }
+
+// export default App
+
+
+import React from 'react';
 import Navbar from "../src/components/Navbar";
 import Home from "../src/components/Home";
 import Footer from "../src/components/Footer";
-import {Navigate, Route, Routes, useLocation} from"react-router-dom";
-import Blogs from"../src/pages/Blogs";
-import About from"../src/pages/About";
-import Contact from"../src/pages/Contact";
-import Login from"../src/pages/Login";
-import Register from"../src/pages/Register";
-import Dashboard from"../src/pages/Dashboard";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Blogs from "../src/pages/Blogs";
+import About from "../src/pages/About";
+import Contact from "../src/pages/Contact";
+import Login from "../src/pages/Login";
+import Register from "../src/pages/Register";
+import Dashboard from "../src/pages/Dashboard";
 import { useAuth } from './context/AuthProvider';
 import Creators from './pages/Creators';
 import UpdateBlog from "./dashboard/UpdateBlog";
-
 import { Toaster } from "react-hot-toast";
 import Detail from './pages/Detail';
 import Notfound from './pages/Notfound';
+
 function App() {
-  const location=useLocation()
-  const hideNavberFooter=["/dashboard","/login","/register"].includes(
-    location.pathname
-  )
-  // const {blogs} =useAuth()
-  // console.log(blogs);
-  const { blogs, isAuthenticated } = useAuth();
-  let token = localStorage.getItem("jwt"); // Retrieve the token directly from the localStorage to maininting the routes protect (Go to login.jsx)
-  console.log(blogs);
-  console.log(isAuthenticated);
+  const location = useLocation();
+  const hideNavbarFooter = ["/login", "/register"].includes(location.pathname);
+
+  const { isAuthenticated } = useAuth();
+  const token = localStorage.getItem("jwt"); // token from localStorage
+
   return (
     <div>
-    {!hideNavberFooter && <Navbar/>}
-     {/* defining routes */}
-     <Routes>
-     <Route
-          exact
+      {!hideNavbarFooter && <Navbar />}
+
+      <Routes>
+        {/* Home route protected */}
+        <Route
           path="/"
-          element={token ? <Home /> : <Navigate to={"/login"} />}
+          element={token ? <Home /> : <Navigate to="/login" />}
         />
-     {/* <Route exact path="/"element ={<Home/>}/> */}
-     <Route exact path="/blogs"element ={<Blogs/>}/>
-     <Route exact path="/about"element ={<About/>}/>
-     <Route exact path="/contact"element ={<Contact/>}/>
-     <Route exact path="/login"element ={<Login/>}/>
-     <Route exact path="/register"element ={<Register/>}/>
-     <Route exact path="/creators"element ={<Creators/>}/>
-     <Route exact path="/dashboard"element ={<Dashboard/>}/>
 
-     {/* Single page route */}
-     <Route exact path="/blog/:id" element={<Detail/>} />
- 
+        {/* Public routes */}
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/creators" element={<Creators />} />
 
-        {/* Update page route */}
-        <Route exact path="/blog/update/:id" element={<UpdateBlog />} />
+        {/* Dashboard protected */}
+        <Route
+          path="/dashboard"
+          element={token ? <Dashboard /> : <Navigate to="/login" />}
+        />
 
-{/* Universal route */}
-<Route path='*' element={<Notfound/>}/>
+        {/* Single blog routes */}
+        <Route path="/blog/:id" element={<Detail />} />
+        <Route path="/blog/update/:id" element={token ? <UpdateBlog /> : <Navigate to="/login" />} />
 
-     </Routes>
-     <Toaster/>
-     {!hideNavberFooter&&<Footer/>}
-     
+        {/* Fallback */}
+        <Route path="*" element={<Notfound />} />
+      </Routes>
+
+      <Toaster />
+      {!hideNavbarFooter && <Footer />}
     </div>
-  )
+  );
 }
 
-export default App
-
+export default App;
