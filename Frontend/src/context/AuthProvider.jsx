@@ -40,7 +40,10 @@ export const AuthProvider = ({ children }) => {
       try {
         // const token = localStorage.getItem('token');
         // Making an API call with withCredentials set to true
-        const { data } = await axios.get("http://localhost:4001/api/blogs/all-blogs", {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/blogs/all-blogs`
+          // "http://localhost:4001/api/blogs/all-blogs"
+          , {
           withCredentials: true, // Allows cookies to be sent with the request
         //   headers: {
                         // Authorization: `Bearer ${token}`} // For token-based authentication
