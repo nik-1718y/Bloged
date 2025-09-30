@@ -112,4 +112,4 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export default AuthProvider;
+export const useAuth = () => useContext(AuthContext);
