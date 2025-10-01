@@ -67,6 +67,76 @@
 // export default App
 
 
+/////11////////////////
+
+// import React from 'react';
+// import Navbar from "../src/components/Navbar";
+// import Home from "../src/components/Home";
+// import Footer from "../src/components/Footer";
+// import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+// import Blogs from "../src/pages/Blogs";
+// import About from "../src/pages/About";
+// import Contact from "../src/pages/Contact";
+// import Login from "../src/pages/Login";
+// import Register from "../src/pages/Register";
+// import Dashboard from "../src/pages/Dashboard";
+// import { useAuth } from './context/AuthProvider';
+// import Creators from './pages/Creators';
+// import UpdateBlog from "./dashboard/UpdateBlog";
+// import { Toaster } from "react-hot-toast";
+// import Detail from './pages/Detail';
+// import Notfound from './pages/Notfound';
+
+// function App() {
+//   const location = useLocation();
+//   const hideNavbarFooter = ["/login", "/register"].includes(location.pathname);
+
+//   const { isAuthenticated } = useAuth();
+//   const token = localStorage.getItem("jwt"); // token from localStorage
+
+//   return (
+//     <div>
+//       {!hideNavbarFooter && <Navbar />}
+
+//       <Routes>
+//         {/* Home route protected */}
+//         <Route
+//           path="/"
+//           element={token ? <Home /> : <Navigate to="/login" />}
+//         />
+
+//         {/* Public routes */}
+//         <Route path="/blogs" element={<Blogs />} />
+//         <Route path="/about" element={<About />} />
+//         <Route path="/contact" element={<Contact />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/register" element={<Register />} />
+//         <Route path="/creators" element={<Creators />} />
+
+//         {/* Dashboard protected */}
+//         <Route
+//           path="/dashboard"
+//           element={token ? <Dashboard /> : <Navigate to="/login" />}
+//         />
+
+//         {/* Single blog routes */}
+//         <Route path="/blog/:id" element={<Detail />} />
+//         <Route path="/blog/update/:id" element={token ? <UpdateBlog /> : <Navigate to="/login" />} />
+
+//         {/* Fallback */}
+//         <Route path="*" element={<Notfound />} />
+//       </Routes>
+
+//       <Toaster />
+//       {!hideNavbarFooter && <Footer />}
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+//////////2222////////////
 import React from 'react';
 import Navbar from "../src/components/Navbar";
 import Home from "../src/components/Home";
@@ -87,7 +157,8 @@ import Notfound from './pages/Notfound';
 
 function App() {
   const location = useLocation();
-  const hideNavbarFooter = ["/login", "/register"].includes(location.pathname);
+  // hide navbar + footer for auth/dashboard pages
+  const hideNavbarFooter = ["/login", "/register", "/dashboard"].includes(location.pathname);
 
   const { isAuthenticated } = useAuth();
   const token = localStorage.getItem("jwt"); // token from localStorage
@@ -119,7 +190,10 @@ function App() {
 
         {/* Single blog routes */}
         <Route path="/blog/:id" element={<Detail />} />
-        <Route path="/blog/update/:id" element={token ? <UpdateBlog /> : <Navigate to="/login" />} />
+        <Route
+          path="/blog/update/:id"
+          element={token ? <UpdateBlog /> : <Navigate to="/login" />}
+        />
 
         {/* Fallback */}
         <Route path="*" element={<Notfound />} />
