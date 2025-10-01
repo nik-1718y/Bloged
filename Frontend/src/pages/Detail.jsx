@@ -151,28 +151,32 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { BACKEND_URL } from "../utils"; 
+import { BACKEND_URL } from "../utils";
 
 function Detail() {
-  const { id } = useParams();
+  const { id } = useParams(); // get blog ID from URL
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!id) return; // Prevent fetching if id is missing
+
     const fetchBlog = async () => {
       try {
-        console.log("Route params id:", id); // ✅ Debugging
+        const token = localStorage.getItem("jwt");
+        if (!token) throw new Error("Not authenticated");
+
         const { data } = await axios.get(
           `${BACKEND_URL}/api/blogs/single-blog/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
 
-        setBlog(data.blog || data);
+        setBlog(data.blog || data); // handle backend response
       } catch (error) {
         console.error("Blog fetch error:", error.response?.data || error.message);
         toast.error("Failed to fetch blog details");
@@ -181,41 +185,26 @@ function Detail() {
       }
     };
 
-    if (id) fetchBlog();
+    fetchBlog();
   }, [id]);
 
-  if (loading) {
-    return <div className="flex items-center justify-center h-screen text-xl">Loading blog details...</div>;
-  }
-
-  if (!blog) {
-    return <div className="flex items-center justify-center h-screen text-xl text-red-500">Blog not found!</div>;
-  }
+  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (!blog) return <div className="flex justify-center items-center h-screen text-red-500">Blog not found!</div>;
 
   return (
     <section className="container mx-auto p-4">
       <div className="text-blue-500 uppercase text-xs font-bold mb-4">{blog?.category}</div>
       <h1 className="text-4xl font-bold mb-6">{blog?.title}</h1>
 
+      {/* Author */}
       <div className="flex items-center mb-6">
-        {blog?.adminPhoto && (
-          <img
-            src={blog?.adminPhoto}
-            alt="author_avatar"
-            className="w-12 h-12 rounded-full mr-4"
-          />
-        )}
+        {blog?.adminPhoto && <img src={blog.adminPhoto} alt="author" className="w-12 h-12 rounded-full mr-4" />}
         <p className="text-lg font-semibold">{blog?.adminName}</p>
       </div>
 
+      {/* Content */}
       <div className="flex flex-col md:flex-row">
-        {blog?.blogImage && (
-          <img
-            src={blog?.blogImage?.url || blog?.blogImage}
-            alt="mainblogsImg"
-            className="md:w-1/2 w-full h-[500px] mb-6 rounded-lg shadow-lg cursor-pointer border"
-          />
-        )}
+        {blog?.blogImage && <img src={blog.blogImage?.url || blog.blogImage} alt="main" className="md:w-1/2 w-full h-[500px] mb-6 rounded-lg shadow-lg border" />}
         <div className="md:w-1/2 w-full md:pl-6">
           <p className="text-lg mb-6">{blog?.about}</p>
         </div>
