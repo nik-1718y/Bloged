@@ -151,7 +151,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-import { BACKEND_URL } from "../utils"; // backend URL
+import { BACKEND_URL } from "../utils"; 
 
 function Detail() {
   const { id } = useParams();
@@ -161,6 +161,7 @@ function Detail() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
+        console.log("Route params id:", id); // ✅ Debugging
         const { data } = await axios.get(
           `${BACKEND_URL}/api/blogs/single-blog/${id}`,
           {
@@ -171,47 +172,31 @@ function Detail() {
           }
         );
 
-        console.log("API response:", data);
-        // handles both shapes { blog: {...} } or direct object
         setBlog(data.blog || data);
       } catch (error) {
-        console.error(
-          "Blog fetch error:",
-          error.response?.data || error.message
-        );
+        console.error("Blog fetch error:", error.response?.data || error.message);
         toast.error("Failed to fetch blog details");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBlog();
+    if (id) fetchBlog();
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen text-xl">
-        Loading blog details...
-      </div>
-    );
+    return <div className="flex items-center justify-center h-screen text-xl">Loading blog details...</div>;
   }
 
   if (!blog) {
-    return (
-      <div className="flex items-center justify-center h-screen text-xl text-red-500">
-        Blog not found!
-      </div>
-    );
+    return <div className="flex items-center justify-center h-screen text-xl text-red-500">Blog not found!</div>;
   }
 
   return (
     <section className="container mx-auto p-4">
-      <div className="text-blue-500 uppercase text-xs font-bold mb-4">
-        {blog?.category}
-      </div>
+      <div className="text-blue-500 uppercase text-xs font-bold mb-4">{blog?.category}</div>
       <h1 className="text-4xl font-bold mb-6">{blog?.title}</h1>
 
-      {/* Author */}
       <div className="flex items-center mb-6">
         {blog?.adminPhoto && (
           <img
@@ -223,7 +208,6 @@ function Detail() {
         <p className="text-lg font-semibold">{blog?.adminName}</p>
       </div>
 
-      {/* Blog Content */}
       <div className="flex flex-col md:flex-row">
         {blog?.blogImage && (
           <img
