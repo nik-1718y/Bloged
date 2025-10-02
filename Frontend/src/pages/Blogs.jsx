@@ -19,7 +19,8 @@ function Blogs() {
             blogs.map((blog, index) => (
               <Link
                 to={`/blog/${blog._id}`}
-                key={index}
+                // key={index}
+                key={blog._id}
                 className="relative rounded-lg overflow-hidden shadow-md transform hover:scale-105 transition-transform duration-300"
               >
                 <img
