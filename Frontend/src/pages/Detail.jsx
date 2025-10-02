@@ -170,7 +170,7 @@ function Detail() {
           `${BACKEND_URL}/api/blogs/single-blog/${id}`,
           {
             headers: {
-              // "Content-Type": "application/json",
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
           }
