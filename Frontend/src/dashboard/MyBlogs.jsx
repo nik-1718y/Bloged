@@ -321,9 +321,10 @@ function MyBlogs() {
   const handleDelete = async (id) => {
     try {
       const { data } = await axios.delete(`${BACKEND_URL}/api/blogs/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // ✅ send token
-        },
+         withCredentials: true 
+        // headers: {
+        //   Authorization: `Bearer ${token}`, // ✅ send token
+        // },
       });
       toast.success(data.message || "Blog deleted successfully");
       setMyBlogs((prev) => prev.filter((blog) => blog._id !== id));
