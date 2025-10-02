@@ -189,9 +189,9 @@ function App() {
         />
 
         {/* Single blog routes */}
-        <Route path="/blog/._id" element={<Detail />} />
+        <Route path="/blog/:id" element={<Detail />} />
         <Route
-          path="/blog/update/._id"
+          path="/blog/update/:id"
           element={token ? <UpdateBlog /> : <Navigate to="/login" />}
         />
 
